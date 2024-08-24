@@ -127,8 +127,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                           child: Row(
                                             children: [
-                                              Image.network(
-                                                  "$imageUrl${data[index].posterPath}"),
+                                              CachedNetworkImage(
+                                                imageUrl:
+                                                    "$imageUrl${data[index].posterPath}",
+                                                placeholder: (context, url) =>
+                                                    Image.asset(
+                                                        'assets/netflix.png'),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    Image.asset(
+                                                        'assets/netflix.png'),
+                                              ),
                                               const SizedBox(
                                                 width: 20,
                                               ),
@@ -182,6 +191,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                       imageUrl:
                                           '$imageUrl${searchMovieModel!.results[index].backdropPath}',
                                       height: 170,
+                                      placeholder: (context, url) =>
+                                          Image.asset('assets/netflix.png'),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset('assets/netflix.png'),
                                     ),
                                     SizedBox(
                                         width: 100,
