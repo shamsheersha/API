@@ -17,8 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
   
     super.initState();
-   Timer(Duration(seconds: 2), () {
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> BottamNavBar()));
+   Timer(const Duration(seconds: 2), () {
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> const BottamNavBar()));
    });
   }
   @override

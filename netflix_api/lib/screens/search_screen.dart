@@ -17,7 +17,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   ApiServices apiServices = ApiServices();
-  late Future<MovieRecomantetionModel> popularMovies;
+  late Future<MovieRecommendationsModel> popularMovies;
 
   SearchMovieModel? searchMovieModel;
 
@@ -109,8 +109,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                         const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       return InkWell(
-                                        onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=> MovieDetailScreen(movieId: data[index].id,)));
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MovieDetailScreen(
+                                                        movieId: data[index].id,
+                                                      )));
                                         },
                                         child: Container(
                                           height: 130,
@@ -136,7 +142,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   ))
                                             ],
                                           ),
-                                          
                                         ),
                                       );
                                     })
@@ -160,22 +165,35 @@ class _SearchScreenState extends State<SearchScreen> {
                                     crossAxisSpacing: 5,
                                     childAspectRatio: 1.2 / 2),
                             itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl:
-                                        '$imageUrl${searchMovieModel!.results[index].backdropPath}',
-                                    height: 170,
-                                  ),
-                                  SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                          maxLines: 2,
-                                          style: const TextStyle(fontSize: 14),
-                                          overflow: TextOverflow.ellipsis,
-                                          searchMovieModel!
-                                              .results[index].originalTitle))
-                                ],
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MovieDetailScreen(
+                                          movieId: searchMovieModel!
+                                              .results[index].id),
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl:
+                                          '$imageUrl${searchMovieModel!.results[index].backdropPath}',
+                                      height: 170,
+                                    ),
+                                    SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                            maxLines: 2,
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                            overflow: TextOverflow.ellipsis,
+                                            searchMovieModel!
+                                                .results[index].originalTitle))
+                                  ],
+                                ),
                               );
                             },
                           )

@@ -70,29 +70,45 @@ class ApiServices {
     throw Exception("Failed to load searched movies");
   }
 
-  Future<MovieRecomantetionModel> popularMovieSearch() async {
+  Future<MovieRecommendationsModel> popularMovieSearch() async {
     endPoint = "movie/popular";
     final url = "$baseUrl$endPoint$key";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       log("success5");
-      return MovieRecomantetionModel.fromJson(jsonDecode(response.body));
+      return MovieRecommendationsModel.fromJson(jsonDecode(response.body));
     }
     throw Exception("Failed to load popular movies search");
   }
 
   Future<MovieDetailsModel> getMovieDetails(int movieId) async {
-    endPoint = "$movieId";
+    endPoint = "movie/$movieId";
     final url = "$baseUrl$endPoint$key";
     final response = await http.get(
       Uri.parse(url),
     );
     if (response.statusCode == 200) {
-      print('fdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+      
       log("success6");
       
       return MovieDetailsModel.fromJson(jsonDecode(response.body));
     }
-    throw Exception("Failed to load moive details");
+    throw Exception("Failed to load movie details");
+  }
+
+  Future<MovieRecommendationsModel> getMovieRecommandations(int movieId) async {
+    endPoint = "movie/$movieId/recommendations";
+    final url = "$baseUrl$endPoint$key";
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 200) {
+      
+      log("success7");
+      
+      return MovieRecommendationsModel.fromJson(jsonDecode(response.body));
+      
+    }
+    throw Exception("Failed to load more like this");
   }
 }
