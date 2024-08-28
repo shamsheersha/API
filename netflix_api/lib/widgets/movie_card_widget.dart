@@ -33,7 +33,7 @@ class MovieCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               SizedBox(
                 height: 196,
                 child: ListView.builder(
