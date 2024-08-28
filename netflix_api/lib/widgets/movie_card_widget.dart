@@ -1,17 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:netflix_api/common/utils.dart';
 import 'package:netflix_api/models/upcoming_model.dart';
+import 'package:netflix_api/screens/movie_detailed_screen.dart';
 
 class MovieCardWidget extends StatelessWidget {
   final Future<UpcomingMovieModel> future;
   final String headLineText;
-  const MovieCardWidget(
-      {super.key, required this.future, required this.headLineText});
+  const MovieCardWidget({
+    super.key,
+    required this.future,
+    required this.headLineText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<UpcomingMovieModel>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -29,30 +33,54 @@ class MovieCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 196,
                 child: ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data!.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
+                  padding: const EdgeInsets.all(10),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: data!.length,
+                  itemBuilder: (context, index) {
+                    final posterPath = data[index].posterPath;
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MovieDetailScreen(
+                                      movieId: data[index].id,
+                                    )));
+                      },
+                      child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child:
-                            Image.network("$imageUrl${data[index].posterPath}"),
-                      );
-                    }),
-              )
+                        child: CachedNetworkImage(
+                          imageUrl: "$imageUrl$posterPath",
+                          placeholder: (context, url) => Image.asset(
+                            'assets/netflix.png',
+                            fit: BoxFit.cover,
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/netflix.png',
+                            fit: BoxFit.cover,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
         } else {
-          return const SizedBox.shrink();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

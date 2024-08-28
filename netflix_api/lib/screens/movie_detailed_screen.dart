@@ -33,17 +33,19 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final movie = snapshot.data!;
-              String genreText = movie.genres.map((genre) => genre.name).join(', ');
+              String genreText =
+                  movie.genres.map((genre) => genre.name).join(', ');
               return Column(
                 children: [
                   Stack(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height *
+                            0.50, 
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: NetworkImage("$imageUrl${movie.posterPath}"),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           ),
                         ),
                         child: SafeArea(
@@ -87,7 +89,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                           const SizedBox(width: 30),
                           Text(
                             genreText,
-                            style: const TextStyle(color: Colors.grey, fontSize: 17),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 17),
                           ),
                         ],
                       ),
@@ -96,7 +99,8 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         movie.overview,
                         maxLines: 6,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.white, fontSize: 17),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 17),
                       ),
                     ],
                   ),
@@ -114,21 +118,46 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                                   const Text('More like this'),
                                   const SizedBox(height: 20),
                                   GridView.builder(
+                                    padding: EdgeInsets.zero,
                                     itemCount: movieRe.results.length,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3,
                                       mainAxisSpacing: 15,
                                       crossAxisSpacing: 5,
                                       childAspectRatio: 1.2 / 2,
                                     ),
                                     itemBuilder: (context, index) {
-                                      final recommendation = movieRe.results[index];
-                                      return CachedNetworkImage(
-                                        imageUrl: '$imageUrl${recommendation.posterPath}',
-                                        placeholder: (context, url) => Image.asset('assets/netflix.png'),
-                                        errorWidget: (context, url, error) =>  Image.asset('assets/netflix.png'),
+                                      final recommendation =
+                                          movieRe.results[index];
+                                      return InkWell(
+                                        onTap: () {},
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MovieDetailScreen(
+                                                            movieId: movieRe
+                                                                .results[index]
+                                                                .id)));
+                                          },
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                '$imageUrl${recommendation.posterPath}',
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                                    'assets/netflix.png'),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                                        'assets/netflix.png'),
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),

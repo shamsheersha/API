@@ -111,12 +111,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                       return InkWell(
                                         onTap: () {
                                           Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MovieDetailScreen(
-                                                        movieId: data[index].id,
-                                                      )));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MovieDetailScreen(
+                                                movieId: data[index].id,
+                                              ),
+                                            ),
+                                          );
                                         },
                                         child: Container(
                                           height: 130,

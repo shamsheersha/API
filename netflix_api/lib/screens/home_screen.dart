@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:netflix_api/common/utils.dart';
 import 'package:netflix_api/models/tv_series_model.dart';
 import 'package:netflix_api/models/upcoming_model.dart';
+import 'package:netflix_api/screens/search_screen.dart';
 import 'package:netflix_api/services/api_services.dart';
 import 'package:netflix_api/widgets/custom_carousel.dart';
 import 'package:netflix_api/widgets/movie_card_widget.dart';
@@ -42,7 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 20),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchScreen()));
+                },
                 child: const Icon(
                   Icons.search,
                   size: 30,
